@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b36d8e39ecbe429886087a26e5896441" Name="Diagram1">
+        <EntityTypeShape EntityType="MovieLibraryModel.Director" Width="1.5" PointX="2.5" PointY="0.5" />
+        <EntityTypeShape EntityType="MovieLibraryModel.Genre" Width="1.5" PointX="2.5" PointY="15.625" />
+        <EntityTypeShape EntityType="MovieLibraryModel.MaritalStatus" Width="1.5" PointX="3.25" PointY="12.875" />
+        <EntityTypeShape EntityType="MovieLibraryModel.MovieDirector" Width="1.5" PointX="4.75" PointY="1.75" />
+        <EntityTypeShape EntityType="MovieLibraryModel.MovieGenre" Width="1.5" PointX="4.75" PointY="7.75" />
+        <EntityTypeShape EntityType="MovieLibraryModel.Movy" Width="1.5" PointX="2.5" PointY="4.125" />
+        <EntityTypeShape EntityType="MovieLibraryModel.RentedMovy" Width="1.5" PointX="4.75" PointY="4.5" />
+        <EntityTypeShape EntityType="MovieLibraryModel.User" Width="1.5" PointX="2.5" PointY="8.125" />
+        <EntityTypeShape EntityType="MovieLibraryModel.WWList" Width="1.5" PointX="7.75" PointY="4.5" />
+        <AssociationConnector Association="MovieLibraryModel.FK_MovieDirectors_Directors" />
+        <AssociationConnector Association="MovieLibraryModel.FK_MovieGenres_Genres" />
+        <AssociationConnector Association="MovieLibraryModel.FK_Users_MaritalStatuses" />
+        <AssociationConnector Association="MovieLibraryModel.FK_MovieDirectors_Movies" />
+        <AssociationConnector Association="MovieLibraryModel.FK_MovieGenres_Movies" />
+        <AssociationConnector Association="MovieLibraryModel.FK_RentedMovies_Movies" />
+        <AssociationConnector Association="MovieLibraryModel.FK_WWList_Movies" />
+        <AssociationConnector Association="MovieLibraryModel.FK_RentedMovies_Users" />
+        <AssociationConnector Association="MovieLibraryModel.FK_WWList_Users" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

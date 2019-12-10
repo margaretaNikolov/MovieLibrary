@@ -1,0 +1,66 @@
+﻿@model List<MovieLibrary.Web.Models.DirectorModel>
+
+@{
+    ViewBag.Title = "Directors";
+    Layout = "~/Views/Shared/_myLayout.cshtml";
+}
+
+<h2>Directors</h2>
+
+<p>
+    @Html.ActionLink("Add Director", "AddDirector")
+</p>
+@if (Model.Count == 0)
+{
+    <h5>No Movie Directors Found!</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].DateOfDeath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].InsertDate)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfDeath)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InsertDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "DirectorEdit", new {  id=item.DirectorID  }, new { @class = "btn btn-primary" }) |
+                    @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                    @Html.ActionLink("Delete", "DirectorDelete", new {  id=item.DirectorID  }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

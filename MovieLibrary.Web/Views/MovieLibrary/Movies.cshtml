@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Movies";
+    Layout = "~/Views/Shared/_myLayout.cshtml";
+}
+
+@section Styles{
+    @Styles.Render("~/Content/jqueryui")
+    @Styles.Render("~/Content/jsGrid/css")
+    @Styles.Render("~/Content/my-grid/css")
+}
+
+<h2>Movies</h2>
+<hr />
+<p>
+    @Html.ActionLink("Add Movie", "AddMovie") |
+    @Html.ActionLink("ImportFromCSV", "ImportMovies", null, new { @class = "btn btn-primary" })
+</p>
+
+<div id="jsGrid">
+    <div id="dialog" title="Image Full Size View">
+        <img id="imagePreview" />
+    </div>
+</div>
+
+@section scripts {
+    @*<script src="~/Scripts/sweetalert/dist/sweetalert2.all.min.js" ></script>*@
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/jsgrid")
+    @Scripts.Render("~/bundles/movies")
+
+
+    @*<script>
+            function sweetalertDeleteMovieClick() {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You will not be able to recover this imaginary file!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, keep it'
+                }).then((result) => {
+                    if (result.value) {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your imaginary file has been deleted.',
+                            'success'
+                        )
+                        // For more information about handling dismissals please visit
+                        // https://sweetalert2.github.io/#handling-dismissals
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire(
+                            'Cancelled',
+                            'Your imaginary file is safe :)',
+                            'error'
+                        )
+                    }
+                })
+            }
+        </script>*@
+}

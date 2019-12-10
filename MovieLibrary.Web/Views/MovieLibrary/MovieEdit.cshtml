@@ -1,0 +1,165 @@
+﻿@using Newtonsoft.Json;
+@model MovieLibrary.Web.Models.MovieEditModel
+
+@{
+    ViewBag.Title = "MovieEdit";
+    Layout = "~/Views/Shared/_myLayout.cshtml";
+}
+
+@section Styles{
+    @Styles.Render("~/Content/select2")
+}
+
+<h2>Movie Edit</h2>
+
+@using (Html.BeginForm("MovieEdit", "MovieLibrary", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Movie</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MovieID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Caption, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Caption, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Caption, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReleaseYear, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReleaseYear, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReleaseYear, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubmittedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SubmittedBy, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SubmittedBy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumberOfAvailableCopies, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumberOfAvailableCopies, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumberOfAvailableCopies, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+                @Html.LabelFor(model => model.InsertDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.InsertDate, new { htmlAttributes = new {  @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.InsertDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AllDirectorModel, "Directors", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.ListBoxFor(model => model.AllDirectorModel.DirectorIDs, new MultiSelectList(Model.AllDirectorModel.DirectorCollection, "DirectorID", "Name"), htmlAttributes: new { @class = "form-control", id = "multiselectDirectorDropdown", multiple = "multiple" })
+                @*@Html.ValidationMessageFor(model => model.MaritalStatusID, "", new { @class = "text-danger" })*@
+                @*@Html.DropDownList("DirectorID", (MultiSelectList)Model.Directors, new { multiple = "multiple" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AllGenreModel, "Genres", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.ListBoxFor(model => model.AllGenreModel.GenreIDs, new MultiSelectList(Model.AllGenreModel.GenreCollection, "GenreID", "Name"), htmlAttributes: new { @class = "form-control", id = "multiselectGenreDropdown", multiple = "multiple" })
+                @*@Html.ValidationMessageFor(model => model.MaritalStatusID, "", new { @class = "text-danger" })
+                    @Html.DropDownList("GenreID", (MultiSelectList)Model.Genres, new { multiple = "multiple" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                <input type="file" class="custom-file-input" id="inputMovieFile" name="ImageFile" onchange="onFileSelected(event)">
+                @if (!String.IsNullOrEmpty(Model.ImageTitle))
+                {
+                    <label class="custom-file-label" for="inputMovieFile">@Model.ImageTitle</label>
+                }
+                else
+                {
+                    <label class="custom-file-label" for="inputMovieFile">Choose file</label>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                @{ if (Model.Image.Length > 0)
+                    {
+                        var base64 = Convert.ToBase64String(Model.Image);
+                        var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+
+                        <img class="img-fluid" id="movieImage" height="200" src="@imgSrc">
+                    }
+                    else
+                    {
+                        <img class="img-fluid" id="movieImage" height="200">
+                    }
+                }
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Movies List", "Movies")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/select2")
+
+    <script>
+        $(function () {
+            $("#multiselectDirectorDropdown").select2();
+            var selectedDirIds = @Html.Raw(Json.Encode(Model.SelectedDirectorIDs));
+            //make multiple selections with selected directors
+            $("#multiselectDirectorDropdown").val(selectedDirIds).trigger('change')
+            
+            $("#multiselectGenreDropdown").select2();
+            var selectedGenIds =@Html.Raw(Json.Encode(Model.SelectedGenreIDs));
+            //make multiple selections with selected genres
+            $("#multiselectGenreDropdown").val(selectedGenIds).trigger('change');
+        });
+
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+        });
+
+        function onFileSelected(event) {
+            var selectedFile = event.target.files[0];
+            var reader = new FileReader();
+
+            var imgtag = document.getElementById("movieImage");
+            imgtag.title = selectedFile.name;
+            imgtag.alt = selectedFile.name;
+
+            reader.onload = function (event) {
+                imgtag.src = event.target.result;
+                console.log(imgtag.src);
+            };
+
+            reader.readAsDataURL(selectedFile);
+        }
+    </script>
+
+}

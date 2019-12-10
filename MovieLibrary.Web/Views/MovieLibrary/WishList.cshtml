@@ -1,0 +1,85 @@
+﻿@model Tuple<MovieLibrary.Web.Models.UserDisplayModel, List<MovieLibrary.Web.Models.MovieModel>>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+    <div class="bd-callout bd-callout-info overflow-hidden">
+        @if (Model.Item1 != null)
+        {
+            if (Model.Item1.Image.Length > 0)
+            {
+                var base64 = Convert.ToBase64String(Model.Item1.Image);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                <img src="@imgSrc" class="img-fluid float-left pr-1" alt="@Model.Item1.ImageTitle" />
+            }
+            <h2>@(Model.Item1.LastName + " " + Model.Item1.FirstName + ": " + Model.Item1.IDNumber)</h2>
+        }
+        <h2 class="text-secondary">Whish Movie List</h2>
+    </div>
+@if (Model.Item2.Count == 0)
+{
+    <h5>No Movies In Wish List Found!</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Item2[0].Caption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item2[0].ReleaseYear)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.SubmittedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeleteDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumberOfCopies)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumberOfAvailableCopies)
+                </th>*@
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Item2)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Caption)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseYear)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.SubmittedBy)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.DeleteDate)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.NumberOfCopies)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumberOfAvailableCopies)
+                    </td>*@
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.MovieID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.MovieID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MovieID })
+                    </td>*@
+                <td>
+                    @Html.ActionLink("Remove from Wish List", "RemoveFromWishList", new { movieId = item.MovieID, userId = Model.Item1.UserID }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+<div>
+    @Html.ActionLink("Back to Users List", "Users")
+</div>

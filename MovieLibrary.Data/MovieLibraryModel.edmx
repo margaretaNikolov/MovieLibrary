@@ -1,0 +1,663 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MovieLibraryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Directors">
+          <Key>
+            <PropertyRef Name="DirectorID" />
+          </Key>
+          <Property Name="DirectorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateOfBirth" Type="datetime" />
+          <Property Name="DateOfDeath" Type="datetime" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="DeleteDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Genres">
+          <Key>
+            <PropertyRef Name="GenreID" />
+          </Key>
+          <Property Name="GenreID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="120" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="DeleteDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MaritalStatuses">
+          <Key>
+            <PropertyRef Name="MaritalStatusID" />
+          </Key>
+          <Property Name="MaritalStatusID" Type="int" Nullable="false" />
+          <Property Name="Caption" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovieDirectors">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DirectorID" Type="int" Nullable="false" />
+          <Property Name="MovieID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovieGenres">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GenreID" Type="int" Nullable="false" />
+          <Property Name="MovieID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movies">
+          <Key>
+            <PropertyRef Name="MovieID" />
+          </Key>
+          <Property Name="MovieID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Caption" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ReleaseYear" Type="int" Nullable="false" />
+          <Property Name="SubmittedBy" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="DeleteDate" Type="datetime" />
+          <Property Name="NumberOfAvailableCopies" Type="int" Nullable="false" />
+          <Property Name="Image" Type="varbinary(max)" />
+          <Property Name="ImageTitle" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RentedMovies">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="MovieID" Type="int" Nullable="false" />
+          <Property Name="IssuedDate" Type="datetime" Nullable="false" />
+          <Property Name="ReturnedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="IDNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MaritalStatusID" Type="int" Nullable="false" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="DeleteDate" Type="datetime" />
+          <Property Name="Image" Type="varbinary(max)" />
+          <Property Name="ImageTitle" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="WWList">
+          <Key>
+            <PropertyRef Name="WWLID" />
+          </Key>
+          <Property Name="WWLID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="MovieID" Type="int" Nullable="false" />
+          <Property Name="InsertDate" Type="datetime" Nullable="false" />
+          <Property Name="DeleteDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_MovieDirectors_Directors">
+          <End Role="Directors" Type="Self.Directors" Multiplicity="1" />
+          <End Role="MovieDirectors" Type="Self.MovieDirectors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Directors">
+              <PropertyRef Name="DirectorID" />
+            </Principal>
+            <Dependent Role="MovieDirectors">
+              <PropertyRef Name="DirectorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieDirectors_Movies">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+          <End Role="MovieDirectors" Type="Self.MovieDirectors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieID" />
+            </Principal>
+            <Dependent Role="MovieDirectors">
+              <PropertyRef Name="MovieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieGenres_Genres">
+          <End Role="Genres" Type="Self.Genres" Multiplicity="1" />
+          <End Role="MovieGenres" Type="Self.MovieGenres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genres">
+              <PropertyRef Name="GenreID" />
+            </Principal>
+            <Dependent Role="MovieGenres">
+              <PropertyRef Name="GenreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieGenres_Movies">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+          <End Role="MovieGenres" Type="Self.MovieGenres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieID" />
+            </Principal>
+            <Dependent Role="MovieGenres">
+              <PropertyRef Name="MovieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RentedMovies_Movies">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+          <End Role="RentedMovies" Type="Self.RentedMovies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieID" />
+            </Principal>
+            <Dependent Role="RentedMovies">
+              <PropertyRef Name="MovieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RentedMovies_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="RentedMovies" Type="Self.RentedMovies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="RentedMovies">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_MaritalStatuses">
+          <End Role="MaritalStatuses" Type="Self.MaritalStatuses" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaritalStatuses">
+              <PropertyRef Name="MaritalStatusID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="MaritalStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WWList_Movies">
+          <End Role="Movies" Type="Self.Movies" Multiplicity="1" />
+          <End Role="WWList" Type="Self.WWList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movies">
+              <PropertyRef Name="MovieID" />
+            </Principal>
+            <Dependent Role="WWList">
+              <PropertyRef Name="MovieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WWList_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="WWList" Type="Self.WWList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="WWList">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MovieLibraryModelStoreContainer">
+          <EntitySet Name="Directors" EntityType="Self.Directors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaritalStatuses" EntityType="Self.MaritalStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovieDirectors" EntityType="Self.MovieDirectors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovieGenres" EntityType="Self.MovieGenres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movies" EntityType="Self.Movies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RentedMovies" EntityType="Self.RentedMovies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WWList" EntityType="Self.WWList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MovieDirectors_Directors" Association="Self.FK_MovieDirectors_Directors">
+            <End Role="Directors" EntitySet="Directors" />
+            <End Role="MovieDirectors" EntitySet="MovieDirectors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieDirectors_Movies" Association="Self.FK_MovieDirectors_Movies">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="MovieDirectors" EntitySet="MovieDirectors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieGenres_Genres" Association="Self.FK_MovieGenres_Genres">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="MovieGenres" EntitySet="MovieGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieGenres_Movies" Association="Self.FK_MovieGenres_Movies">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="MovieGenres" EntitySet="MovieGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RentedMovies_Movies" Association="Self.FK_RentedMovies_Movies">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="RentedMovies" EntitySet="RentedMovies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RentedMovies_Users" Association="Self.FK_RentedMovies_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="RentedMovies" EntitySet="RentedMovies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_MaritalStatuses" Association="Self.FK_Users_MaritalStatuses">
+            <End Role="MaritalStatuses" EntitySet="MaritalStatuses" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WWList_Movies" Association="Self.FK_WWList_Movies">
+            <End Role="Movies" EntitySet="Movies" />
+            <End Role="WWList" EntitySet="WWList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WWList_Users" Association="Self.FK_WWList_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="WWList" EntitySet="WWList" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MovieLibraryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MovieLibraryContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Directors" EntityType="MovieLibraryModel.Director" />
+          <EntitySet Name="Genres" EntityType="MovieLibraryModel.Genre" />
+          <EntitySet Name="MaritalStatuses" EntityType="MovieLibraryModel.MaritalStatus" />
+          <EntitySet Name="MovieDirectors" EntityType="MovieLibraryModel.MovieDirector" />
+          <EntitySet Name="MovieGenres" EntityType="MovieLibraryModel.MovieGenre" />
+          <EntitySet Name="Movies" EntityType="MovieLibraryModel.Movy" />
+          <EntitySet Name="RentedMovies" EntityType="MovieLibraryModel.RentedMovy" />
+          <EntitySet Name="Users" EntityType="MovieLibraryModel.User" />
+          <EntitySet Name="WWLists" EntityType="MovieLibraryModel.WWList" />
+          <AssociationSet Name="FK_MovieDirectors_Directors" Association="MovieLibraryModel.FK_MovieDirectors_Directors">
+            <End Role="Director" EntitySet="Directors" />
+            <End Role="MovieDirector" EntitySet="MovieDirectors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieGenres_Genres" Association="MovieLibraryModel.FK_MovieGenres_Genres">
+            <End Role="Genre" EntitySet="Genres" />
+            <End Role="MovieGenre" EntitySet="MovieGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_MaritalStatuses" Association="MovieLibraryModel.FK_Users_MaritalStatuses">
+            <End Role="MaritalStatus" EntitySet="MaritalStatuses" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieDirectors_Movies" Association="MovieLibraryModel.FK_MovieDirectors_Movies">
+            <End Role="Movy" EntitySet="Movies" />
+            <End Role="MovieDirector" EntitySet="MovieDirectors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MovieGenres_Movies" Association="MovieLibraryModel.FK_MovieGenres_Movies">
+            <End Role="Movy" EntitySet="Movies" />
+            <End Role="MovieGenre" EntitySet="MovieGenres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RentedMovies_Movies" Association="MovieLibraryModel.FK_RentedMovies_Movies">
+            <End Role="Movy" EntitySet="Movies" />
+            <End Role="RentedMovy" EntitySet="RentedMovies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WWList_Movies" Association="MovieLibraryModel.FK_WWList_Movies">
+            <End Role="Movy" EntitySet="Movies" />
+            <End Role="WWList" EntitySet="WWLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RentedMovies_Users" Association="MovieLibraryModel.FK_RentedMovies_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="RentedMovy" EntitySet="RentedMovies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WWList_Users" Association="MovieLibraryModel.FK_WWList_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="WWList" EntitySet="WWLists" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Director">
+          <Key>
+            <PropertyRef Name="DirectorID" />
+          </Key>
+          <Property Name="DirectorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="3" />
+          <Property Name="DateOfDeath" Type="DateTime" Precision="3" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeleteDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="MovieDirectors" Relationship="MovieLibraryModel.FK_MovieDirectors_Directors" FromRole="Director" ToRole="MovieDirector" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreID" />
+          </Key>
+          <Property Name="GenreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Comment" Type="String" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeleteDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="MovieGenres" Relationship="MovieLibraryModel.FK_MovieGenres_Genres" FromRole="Genre" ToRole="MovieGenre" />
+        </EntityType>
+        <EntityType Name="MaritalStatus">
+          <Key>
+            <PropertyRef Name="MaritalStatusID" />
+          </Key>
+          <Property Name="MaritalStatusID" Type="Int32" Nullable="false" />
+          <Property Name="Caption" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="MovieLibraryModel.FK_Users_MaritalStatuses" FromRole="MaritalStatus" ToRole="User" />
+        </EntityType>
+        <EntityType Name="MovieDirector">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DirectorID" Type="Int32" Nullable="false" />
+          <Property Name="MovieID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Director" Relationship="MovieLibraryModel.FK_MovieDirectors_Directors" FromRole="MovieDirector" ToRole="Director" />
+          <NavigationProperty Name="Movy" Relationship="MovieLibraryModel.FK_MovieDirectors_Movies" FromRole="MovieDirector" ToRole="Movy" />
+        </EntityType>
+        <EntityType Name="MovieGenre">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="GenreID" Type="Int32" Nullable="false" />
+          <Property Name="MovieID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Genre" Relationship="MovieLibraryModel.FK_MovieGenres_Genres" FromRole="MovieGenre" ToRole="Genre" />
+          <NavigationProperty Name="Movy" Relationship="MovieLibraryModel.FK_MovieGenres_Movies" FromRole="MovieGenre" ToRole="Movy" />
+        </EntityType>
+        <EntityType Name="Movy">
+          <Key>
+            <PropertyRef Name="MovieID" />
+          </Key>
+          <Property Name="MovieID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Caption" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReleaseYear" Type="Int32" Nullable="false" />
+          <Property Name="SubmittedBy" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeleteDate" Type="DateTime" Precision="3" />
+          <Property Name="NumberOfAvailableCopies" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MovieDirectors" Relationship="MovieLibraryModel.FK_MovieDirectors_Movies" FromRole="Movy" ToRole="MovieDirector" />
+          <NavigationProperty Name="MovieGenres" Relationship="MovieLibraryModel.FK_MovieGenres_Movies" FromRole="Movy" ToRole="MovieGenre" />
+          <NavigationProperty Name="RentedMovies" Relationship="MovieLibraryModel.FK_RentedMovies_Movies" FromRole="Movy" ToRole="RentedMovy" />
+          <NavigationProperty Name="WWLists" Relationship="MovieLibraryModel.FK_WWList_Movies" FromRole="Movy" ToRole="WWList" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ImageTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RentedMovy">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="MovieID" Type="Int32" Nullable="false" />
+          <Property Name="IssuedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ReturnedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Movy" Relationship="MovieLibraryModel.FK_RentedMovies_Movies" FromRole="RentedMovy" ToRole="Movy" />
+          <NavigationProperty Name="User" Relationship="MovieLibraryModel.FK_RentedMovies_Users" FromRole="RentedMovy" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="IDNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MaritalStatusID" Type="Int32" Nullable="false" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeleteDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="MaritalStatus" Relationship="MovieLibraryModel.FK_Users_MaritalStatuses" FromRole="User" ToRole="MaritalStatus" />
+          <NavigationProperty Name="RentedMovies" Relationship="MovieLibraryModel.FK_RentedMovies_Users" FromRole="User" ToRole="RentedMovy" />
+          <NavigationProperty Name="WWLists" Relationship="MovieLibraryModel.FK_WWList_Users" FromRole="User" ToRole="WWList" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ImageTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="WWList">
+          <Key>
+            <PropertyRef Name="WWLID" />
+          </Key>
+          <Property Name="WWLID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="MovieID" Type="Int32" Nullable="false" />
+          <Property Name="InsertDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeleteDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Movy" Relationship="MovieLibraryModel.FK_WWList_Movies" FromRole="WWList" ToRole="Movy" />
+          <NavigationProperty Name="User" Relationship="MovieLibraryModel.FK_WWList_Users" FromRole="WWList" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_MovieDirectors_Directors">
+          <End Type="MovieLibraryModel.Director" Role="Director" Multiplicity="1" />
+          <End Type="MovieLibraryModel.MovieDirector" Role="MovieDirector" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Director">
+              <PropertyRef Name="DirectorID" />
+            </Principal>
+            <Dependent Role="MovieDirector">
+              <PropertyRef Name="DirectorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieGenres_Genres">
+          <End Type="MovieLibraryModel.Genre" Role="Genre" Multiplicity="1" />
+          <End Type="MovieLibraryModel.MovieGenre" Role="MovieGenre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genre">
+              <PropertyRef Name="GenreID" />
+            </Principal>
+            <Dependent Role="MovieGenre">
+              <PropertyRef Name="GenreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_MaritalStatuses">
+          <End Type="MovieLibraryModel.MaritalStatus" Role="MaritalStatus" Multiplicity="1" />
+          <End Type="MovieLibraryModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaritalStatus">
+              <PropertyRef Name="MaritalStatusID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="MaritalStatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieDirectors_Movies">
+          <End Type="MovieLibraryModel.Movy" Role="Movy" Multiplicity="1" />
+          <End Type="MovieLibraryModel.MovieDirector" Role="MovieDirector" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movy">
+              <PropertyRef Name="MovieID" />
+            </Principal>
+            <Dependent Role="MovieDirector">
+              <PropertyRef Name="MovieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MovieGenres_Movies">
+          <End Type="MovieLibraryModel.Movy" Role="Movy" Multiplicity="1" />
+          <End Type="MovieLibraryModel.MovieGenre" Role="MovieGenre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movy">
+              <PropertyRef Name="MovieID" />
+            </Principal>
+            <Dependent Role="MovieGenre">
+              <PropertyRef Name="MovieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RentedMovies_Movies">
+          <End Type="MovieLibraryModel.Movy" Role="Movy" Multiplicity="1" />
+          <End Type="MovieLibraryModel.RentedMovy" Role="RentedMovy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movy">
+              <PropertyRef Name="MovieID" />
+            </Principal>
+            <Dependent Role="RentedMovy">
+              <PropertyRef Name="MovieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WWList_Movies">
+          <End Type="MovieLibraryModel.Movy" Role="Movy" Multiplicity="1" />
+          <End Type="MovieLibraryModel.WWList" Role="WWList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movy">
+              <PropertyRef Name="MovieID" />
+            </Principal>
+            <Dependent Role="WWList">
+              <PropertyRef Name="MovieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RentedMovies_Users">
+          <End Type="MovieLibraryModel.User" Role="User" Multiplicity="1" />
+          <End Type="MovieLibraryModel.RentedMovy" Role="RentedMovy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="RentedMovy">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WWList_Users">
+          <End Type="MovieLibraryModel.User" Role="User" Multiplicity="1" />
+          <End Type="MovieLibraryModel.WWList" Role="WWList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="WWList">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MovieLibraryModelStoreContainer" CdmEntityContainer="MovieLibraryContext">
+          <EntitySetMapping Name="Directors">
+            <EntityTypeMapping TypeName="MovieLibraryModel.Director">
+              <MappingFragment StoreEntitySet="Directors">
+                <ScalarProperty Name="DeleteDate" ColumnName="DeleteDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="DateOfDeath" ColumnName="DateOfDeath" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="DirectorID" ColumnName="DirectorID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="MovieLibraryModel.Genre">
+              <MappingFragment StoreEntitySet="Genres">
+                <ScalarProperty Name="DeleteDate" ColumnName="DeleteDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GenreID" ColumnName="GenreID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaritalStatuses">
+            <EntityTypeMapping TypeName="MovieLibraryModel.MaritalStatus">
+              <MappingFragment StoreEntitySet="MaritalStatuses">
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="MaritalStatusID" ColumnName="MaritalStatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieDirectors">
+            <EntityTypeMapping TypeName="MovieLibraryModel.MovieDirector">
+              <MappingFragment StoreEntitySet="MovieDirectors">
+                <ScalarProperty Name="MovieID" ColumnName="MovieID" />
+                <ScalarProperty Name="DirectorID" ColumnName="DirectorID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieGenres">
+            <EntityTypeMapping TypeName="MovieLibraryModel.MovieGenre">
+              <MappingFragment StoreEntitySet="MovieGenres">
+                <ScalarProperty Name="MovieID" ColumnName="MovieID" />
+                <ScalarProperty Name="GenreID" ColumnName="GenreID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies">
+            <EntityTypeMapping TypeName="MovieLibraryModel.Movy">
+              <MappingFragment StoreEntitySet="Movies">
+                <ScalarProperty Name="ImageTitle" ColumnName="ImageTitle" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="NumberOfAvailableCopies" ColumnName="NumberOfAvailableCopies" />
+                <ScalarProperty Name="DeleteDate" ColumnName="DeleteDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="SubmittedBy" ColumnName="SubmittedBy" />
+                <ScalarProperty Name="ReleaseYear" ColumnName="ReleaseYear" />
+                <ScalarProperty Name="Caption" ColumnName="Caption" />
+                <ScalarProperty Name="MovieID" ColumnName="MovieID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RentedMovies">
+            <EntityTypeMapping TypeName="MovieLibraryModel.RentedMovy">
+              <MappingFragment StoreEntitySet="RentedMovies">
+                <ScalarProperty Name="ReturnedDate" ColumnName="ReturnedDate" />
+                <ScalarProperty Name="IssuedDate" ColumnName="IssuedDate" />
+                <ScalarProperty Name="MovieID" ColumnName="MovieID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MovieLibraryModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ImageTitle" ColumnName="ImageTitle" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="DeleteDate" ColumnName="DeleteDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="MaritalStatusID" ColumnName="MaritalStatusID" />
+                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WWLists">
+            <EntityTypeMapping TypeName="MovieLibraryModel.WWList">
+              <MappingFragment StoreEntitySet="WWList">
+                <ScalarProperty Name="DeleteDate" ColumnName="DeleteDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="MovieID" ColumnName="MovieID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="WWLID" ColumnName="WWLID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

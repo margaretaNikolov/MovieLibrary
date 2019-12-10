@@ -1,0 +1,54 @@
+﻿@model List<MovieLibrary.Web.Models.GenreModel>
+
+@{
+    ViewBag.Title = "Genres";
+    Layout = "~/Views/Shared/_myLayout.cshtml";
+}
+
+<h2>Genres</h2>
+
+<p>
+    @Html.ActionLink("Add Genre", "AddGenre")
+</p>
+
+@if (Model.Count == 0)
+{
+    <h5>No Movie Genre Found!</h5>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].InsertDate)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InsertDate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "GenreEdit", new {  id=item.GenreID  }, new { @class = "btn btn-primary" }) |
+                    @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                    @Html.ActionLink("Delete", "GenreDelete", new { id=item.GenreID  }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </table>
+}

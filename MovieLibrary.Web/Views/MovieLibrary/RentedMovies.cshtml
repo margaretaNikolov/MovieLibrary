@@ -1,0 +1,93 @@
+﻿@model Tuple<MovieLibrary.Web.Models.UserDisplayModel, List<MovieLibrary.Web.Models.RentedMovieModel>>
+
+@{
+    ViewBag.Title = "RentedMovies";
+    Layout = "~/Views/Shared/_myLayout.cshtml";
+}
+
+    <div class="bd-callout bd-callout-info overflow-hidden">
+        @if (Model.Item1 != null)
+        {
+            if (Model.Item1.Image.Length > 0)
+            {
+                var base64 = Convert.ToBase64String(Model.Item1.Image);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                <img src="@imgSrc" class="img-fluid float-left pr-1" alt="@Model.Item1.ImageTitle" />
+            }
+            <h2>@(Model.Item1.LastName + " " + Model.Item1.FirstName + ": " + Model.Item1.IDNumber)</h2>
+        }
+        <h2 class="text-secondary">Rented Movies</h2>
+    </div>
+<br/>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+@if (Model.Item2.Count == 0)
+{
+    <h5> No Rented Movies Found! </h5>
+}
+else
+{
+    <p>
+        @Html.ActionLink("ExportToPDF", "Get", new { controller = "PDF", id = Model.Item1.UserID }, new { @class = "btn btn-primary" })
+    </p>
+    <table class="table">
+        <tr>
+            @*<th>
+                    @Html.DisplayNameFor(model => model[0].UserID)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model[0].MovieID)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Item2[0].Movie.Caption)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item2[0].Movie.ReleaseYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Item2[0].IssuedDate)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model[0].ReturnedDate)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.ReturnedDate)
+                </th>*@
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Item2)
+        {
+            <tr>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.UserID)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Movie.Caption)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Movie.ReleaseYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IssuedDate)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.ReturnedDate)
+                    </td>*@
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.ID }) |*@
+                    @Html.ActionLink("Close", "CloseRentedMovie", new { id = item.ID , userId = Model.Item1.UserID}, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<div>
+    @Html.ActionLink("Back to User Rent a Movie", "UserRentAMovie", new { id = Model.Item1.UserID }) |
+    @Html.ActionLink("Back to Users List", "Users")
+</div>

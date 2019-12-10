@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "Movie Library Home Page";
+    Layout = "~/Views/Shared/_myLayout.cshtml";
+}
+
+<div class="jumbotron">
+    <h1>MOVIE LIBRARY</h1>
+    <p class="lead">MOVIE LIBRARY is a Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    
+</div>
+@*<ul class="nav flex-column">
+    <li class="nav-item">
+        <a class="badge badge-light" href="@Url.Action("Movies", "MovieLibrary")">Movies</a>
+    </li>
+    <li class="nav-item">
+        <a class="badge badge-light" href="@Url.Action("Users", "MovieLibrary")">Users</a>
+    </li>   
+</ul>*@
+<div class="row">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-header">
+                Movies
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Movie Bla Bla</h5>
+                <p class="card-text">User movie list bla bla</p>
+                <a href="@Url.Action("Movies", "MovieLibrary")" class="btn btn-primary">Go to Movies List</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-header">
+               Directors
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Director Bla Bla</h5>
+                <p class="card-text">Directors movie list bla bla</p>
+                <a href="@Url.Action("Directors", "MovieLibrary")" class="btn btn-primary">Go to Directors List</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-header">
+                Genres
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Movie Genre Bla Bla</h5>
+                <p class="card-text">Movie Genre list bla bla</p>
+                <a href="@Url.Action("Genres", "MovieLibrary")" class="btn btn-primary">Go to Movie Genres List</a>
+            </div>
+        </div>
+    </div>
+</div>
+        <div class="card">
+            <div class="card-header">
+                Users
+            </div>
+            <div class="card-body">
+                @*<h5 class="card-title">Special title treatment</h5>*@
+                <p class="card-text">List of Active Users</p>
+                <a href="@Url.Action("Users", "MovieLibrary")" class="btn btn-primary">Go to User List</a>
+            </div>
+        </div>

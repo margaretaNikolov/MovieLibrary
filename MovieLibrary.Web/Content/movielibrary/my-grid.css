@@ -1,0 +1,17 @@
+﻿.myjsgrid {
+    width: 100% !important;
+    overflow-y: hidden
+}
+
+    .myjsgrid .jsgrid-grid-body {
+        border: none;
+    }
+
+    .myjsgrid .jsgrid-grid-header {
+        overflow-y: hidden;
+        border: none;
+    }
+
+    .myjsgrid .jsgrid-cell {
+        border: none;
+    }

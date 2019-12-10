@@ -1,0 +1,111 @@
+﻿@model MovieLibrary.Web.Models.UserRentAMovieModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "UserRentAMovie";
+    Layout = "~/Views/Shared/_myLayout.cshtml";
+}
+
+<div class="bd-callout bd-callout-info overflow-hidden" >
+    @if (Model.UserDisplayModel != null)
+    {
+        if (Model.UserDisplayModel.Image.Length > 0)
+        {
+            var base64 = Convert.ToBase64String(Model.UserDisplayModel.Image);
+            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+            <img src="@imgSrc" class="img-fluid float-left pr-1" alt="@Model.UserDisplayModel.ImageTitle" />
+        }
+        <h2>@(Model.UserDisplayModel.LastName + " " + Model.UserDisplayModel.FirstName + ": " + Model.UserDisplayModel.IDNumber)</h2>
+    }
+    <h2 class="text-secondary">Rent A Movie</h2>
+</div>
+<br />
+
+@if (Model.MovieModels.Count == 0)
+{
+    <h5>No Available Movies Found!</h5>
+}
+else
+{
+    using (Html.BeginForm("UserRentAMovie", "MovieLibrary", FormMethod.Get))
+    {
+        <div class="row">
+            <div class="col-md-4">
+                Find by caption: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Search" />
+            </div>
+        </div>
+    }
+    <br />
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MovieModels[0].Caption)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.MovieModels[0].ReleaseYear)*@
+                @Html.ActionLink("ReleaseYear", "UserRentAMovie", new { sortOrder = ViewBag.YearSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.SubmittedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeleteDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumberOfCopies)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.MovieModels[0].NumberOfAvailableCopies)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.MovieModels)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Caption)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseYear)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.SubmittedBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeleteDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumberOfCopies)
+                    </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfAvailableCopies)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.MovieID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.MovieID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MovieID })*@
+                    @Html.ActionLink("Rent", "Rent", new { movieId = item.MovieID, userId = Model.UserDisplayModel.UserID }, new { @class = "btn btn-secondary" }) |
+                    @if (Model.WishMoviesListIds.Contains(item.MovieID.ToString()) == true)
+                    {
+                        <span class="oi oi-heart"></span>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Add to Wish List", "AddToWishList", new { movieId = item.MovieID, userId = Model.UserDisplayModel.UserID }, new { @class = "btn btn-info" })
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+<div>
+    @Html.ActionLink("Back to Users List", "Users")
+</div>
+
+@Html.PagedListPager(Model.MovieModels, page => Url.Action("UserRentAMovie", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
