@@ -163,7 +163,7 @@
                                     data: { id: item.MovieID }
                                 }).done(function (response) {
                                     console.log(response);
-                                    if (response === true) {
+                                    if (response) {
                                         $("#jsGrid").jsGrid("search");
                                         console.log("Movie successfully deleted!");
                                     }

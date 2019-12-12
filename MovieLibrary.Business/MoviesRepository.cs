@@ -756,7 +756,7 @@ namespace MovieLibrary.Business
                 {
                     return;
                 }
-                var wwlCount = context.WWLists.Where(m => m.UserID == userId && m.MovieID == movieId).ToList().Count;
+                var wwlCount = context.WWLists.Where(m => m.UserID == userId && m.MovieID == movieId && m.DeleteDate==null).ToList().Count;
                 if (wwlCount == 0)
                 {
                     WWListDTO wwl = new WWListDTO()
@@ -798,7 +798,7 @@ namespace MovieLibrary.Business
                 {
                     return;
                 }
-                var wwl = context.WWLists.SingleOrDefault(m => m.UserID == userId && m.MovieID == movieId);
+                var wwl = context.WWLists.SingleOrDefault(m => m.UserID == userId && m.MovieID == movieId && m.DeleteDate==null);
                 if (wwl != null)
                 {
                     wwl.DeleteDate = DateTime.Now;
@@ -827,7 +827,7 @@ namespace MovieLibrary.Business
                 {
                     return null;
                 }
-                var mids = context.WWLists.Where(w => w.UserID == userId).Select(w => w.MovieID).ToList();
+                var mids = context.WWLists.Where(w => w.UserID == userId && w.DeleteDate==null).Select(w => w.MovieID).ToList();
                 var dataMovies = context.Movies.Where(m => mids.Contains(m.MovieID)).ToList();
                 return Mapper.Map<List<MovieDTO>>(dataMovies);
             }
@@ -853,7 +853,7 @@ namespace MovieLibrary.Business
                 {
                     return null;
                 }
-                var mids = context.WWLists.Where(w => w.UserID == userId).Select(w => w.MovieID.ToString()).ToList();
+                var mids = context.WWLists.Where(w => w.UserID == userId && w.DeleteDate==null).Select(w => w.MovieID.ToString()).ToList();
                 return mids;
             }
             catch (Exception ex)

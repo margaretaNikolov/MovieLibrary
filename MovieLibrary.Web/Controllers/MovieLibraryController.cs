@@ -487,7 +487,7 @@ namespace MovieLibrary.Web.Controllers
             return RedirectToAction("UserRentAMovie", new { id = userId.Value });
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult RemoveFromWishList(int? movieId, int? userId)
         {
             if (!movieId.HasValue || !userId.HasValue)
@@ -504,7 +504,9 @@ namespace MovieLibrary.Web.Controllers
             {
                 return HttpNotFound();
             }
-            return View();
+            //return View();
+            MoviesRepository.RemoveFromWishList(userId.Value, movieId.Value);
+            return RedirectToAction("WishList", new { id = userId.Value });
         }
 
         //view wish list

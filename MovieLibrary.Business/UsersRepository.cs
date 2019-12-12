@@ -59,12 +59,10 @@ namespace MovieLibrary.Business
             var context = new MovieLibraryContext();
             try
             {
-                var dbUsers = context.Users.Include(m => m.MaritalStatus);
+                var dbUsers = context.Users.Include(m => m.MaritalStatus).Where(m => m.DeleteDate == null);
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    dbUsers = dbUsers
-                       .Where(m => m.DeleteDate == null)
-                       .Where(m => m.LastName.Contains(searchString) || m.FirstName.Contains(searchString));                   
+                    dbUsers = dbUsers.Where(m => m.LastName.Contains(searchString) || m.FirstName.Contains(searchString));                   
                 }
                 switch (sortOrder)
                 {

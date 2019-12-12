@@ -6,7 +6,7 @@ namespace MovieLibrary.Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "MovieLibrary");
         }
 
         public ActionResult About()
